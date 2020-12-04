@@ -1,5 +1,5 @@
 web:
-  image: nginx:latest
+  image: nginx:1.18
   container_name: nginx
   restart: always
   ports:
@@ -10,7 +10,7 @@ web:
   links:
     - php
 php:
-  image: php:7.3-fpm
+  image: php:8.0-fpm
   #build:
   #  context: ./docker/php
   container_name: php-fpm
@@ -19,7 +19,7 @@ php:
   links:
   - database
 database:
-  image: mysql:5.7
+  image: mysql:8.0
   container_name: mysql
   ports:
   - "3306:3306"
@@ -28,3 +28,6 @@ database:
   environment:
     MYSQL_ROOT_PASSWORD: root
     MYSQL_DATABASE: escola_xpto
+  volumes:
+      - ./config/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+      - mysql_data:/var/lib/mysql:rw  
